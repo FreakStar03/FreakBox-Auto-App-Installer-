@@ -1,6 +1,6 @@
 #!/bin/bash
 val="Install"
-declare -a Install_ARRAY=("All" "Vs Code" "Chrome" "Spotify" "Java"  "Zoom" "firewall gufw" "Y ppa manager" "gnome tweak" "gnome hide notification bar" "fish" "polybar"  "neovim" "wireshark" "postman" "ngrok" "php" "Android Studio" "snapd" "upgrade")   
+declare -a Install_ARRAY=("All" "Vs Code" "Chrome" "Spotify" "Java"  "Zoom" "firewall gufw" "Y ppa manager" "gnome tweak" "gnome hide notification bar" "fish" "polybar"  "neovim" "wireshark" "postman" "ngrok" "php" "Android Studio" "snapd" "phpmyadmin" "upgrade")   
 
 count=0
 for i in "${Install_ARRAY[@]}";
@@ -159,6 +159,30 @@ android_studio () {
 snapd () {
     sudo apt install -y snapd
     }
+    
+phpmyadmin () {
+sudo apt install apache2
+sudo ufw allow in "Apache"
+sudo apt install mysql-server
+sudo apt install php libapache2-mod-php php-mysql
+sudo mkdir /var/www/html/php
+sudo chown -R $USER:$USER /var/www/html/php
+sudo apt install phpmyadmin
+sudo systemctl restart apache2
+echo " "
+echo "echo Include /etc/phpmyadmin/apache.conf >> /etc/apache2/apache2.conf FOR PAGE NOT FOUND ERROR}"
+echo "Installed PhpMyAdmin"
+echo "Create New Mysql User with Root Priveleges Or Change Root Password"
+echo "FOLLOW FOLLOWING COMMAND TO CREATE NEW USER!"
+echo "sudo mysql -u root -p"
+echo "CREATE USER 'user-name'@'localhost' IDENTIFIED BY 'NEW_USER_PASSWORD';"
+echo "GRANT ALL PRIVILEGES ON *.* TO 'user-name'@'localhost' WITH GRANT OPTION;"
+echo "FLUSH PRIVILEGES;"
+echo "FOLLOW FOLLOWING COMMAND TO Change ROOT USER PASSWORD!"
+echo "ALTER USER 'user-name'@'localhost' IDENTIFIED BY 'NEW_USER_PASSWORD';"
+echo "FLUSH PRIVILEGES;"
+}
+
 
 DIR=`pwd`
 FDIR="$HOME/.local/share/fonts"
@@ -182,7 +206,7 @@ upgrade () {
 all_app () {
     echo "Installing update and upgrade!"
     upgrade
-    sudo apt install -y git && sudo apt-get install -y wget
+    sudo apt install -y git && sudo apt-get install -y wget && sudo apt-get install -y curl
     
     echo "Installing Vs COde!"
     Vs_Code
@@ -238,6 +262,9 @@ all_app () {
 
     echo "Installing snapd!"
     snapd
+    
+    echo "Installing PHPMYADMIN"
+    phpmyadmin
 }
 
 case $value in
@@ -319,6 +346,10 @@ case $value in
             snapd
             ;;
     20)
+            echo "Installing PhpMyAdmin!"
+            phpmyadmin
+            ;;
+    21)
             echo "Installing update and upgrade!"
             upgrade
             ;;
