@@ -1,6 +1,6 @@
 
 # Freak Box
-
+Menu Driven App Install for new Debian Os and to save time
 One click app install with shell script for Debian
 
 
