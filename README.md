@@ -17,6 +17,32 @@ chmod +x run.sh
 ![App Screenshot](./screenshot.png)
 
 
+
+## Features Or Options Available
+
+- "All"
+- "Vs Code"
+- "Chrome"
+- "Spotify"
+- "Java"
+- "Zoom" 
+- "firewall gufw"
+- "Y ppa manager"
+- "gnome tweak"
+- "gnome hide notification bar" 
+- "fish" "polybar" 
+- "neovim"
+- "wireshark" 
+- "postman" 
+- "ngrok" 
+- "php" 
+- "Android Studio" 
+- "snapd" 
+- "phpmyadmin" 
+- "upgrade"
+
+
+
 ## Authors
 
 - [@ChiragPadyal](https://github.com/FreakStar03)
