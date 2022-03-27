@@ -1,29 +1,26 @@
 #!/bin/bash
 val="Install"
-declare -a Install_ARRAY=("All" "Vs Code" "Chrome" "Spotify" "Java"  "Zoom" "firewall gufw" "Y ppa manager" "gnome tweak" "gnome hide notification bar" "fish" "polybar"  "neovim" "wireshark" "postman" "ngrok" "php" "Android Studio" "snapd" "phpmyadmin" "upgrade")   
+declare -a Install_ARRAY=("All" "Vs Code" "Chrome" "Spotify" "Java" "Zoom" "firewall gufw" "Y ppa manager" "gnome tweak" "gnome hide notification bar" "fish" "polybar" "neovim" "wireshark" "postman" "ngrok" "php" "Android Studio" "snapd" "phpmyadmin" "python" "nvm" "nvm_fish (must have fish with fisher)" "yarn" "upgrade")
 
 count=0
-for i in "${Install_ARRAY[@]}";
-    do
-    count=$((count+1))
-    printf "$count) $val $i \n";
-done   
+for i in "${Install_ARRAY[@]}"; do
+    count=$((count + 1))
+    printf "$count) $val $i \n"
+done
 
-printf "Index: "  
+printf "Index: "
 read value
 
-
-Vs_Code () {
+Vs_Code() {
     sudo apt update
     sudo apt install -y software-properties-common apt-transport-https wget
     wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
     sudo apt update
     sudo apt install -y code
-    printf "\n Yes/No: "  
+    printf "\n Yes/No: "
     read subvalue
-    if [[ $subvalue == "Yes" || $subvalue == "Y" || $subvalue == "y" || $subvalue == "yes" || $subvalue == "YES" ]]
-        then 
+    if [[ $subvalue == "Yes" || $subvalue == "Y" || $subvalue == "y" || $subvalue == "yes" || $subvalue == "YES" ]]; then
         echo "Installing Vs Extensions!"
         code --install-extension ritwickdey.LiveServer
         code --install-extension esbenp.prettier-vscode
@@ -31,63 +28,62 @@ Vs_Code () {
         code --install-extension TabNine.tabnine-vscode
         code --install-extension ms-python.python
         code --install-extension vscjava.vscode-java-pack
-        else  
-        echo "Not Installing Vs Extensions."  
-    fi  
+    else
+        echo "Not Installing Vs Extensions."
+    fi
 }
 
-chrome () {
+chrome() {
     cd ~/Downloads
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo apt install -y ./google-chrome-stable_current_amd64.deb
 }
 
-spotify () {
+spotify() {
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4773BD5E130D1D45
     echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
     sudo apt update
     sudo apt install -y spotify-client
 }
 
-java () {
+java() {
     sudo apt update
     sudo apt install -y openjdk-11-jdk
 }
 
-zoom () {
+zoom() {
     cd ~/Downloads
     wget https://zoom.us/client/latest/zoom_amd64.deb
-    sudo apt install -y ./zoom_amd64.deb               
+    sudo apt install -y ./zoom_amd64.deb
 }
 
-firewall () {
+firewall() {
     sudo apt install -y gufw
 }
 
-ppa_manager () {
+ppa_manager() {
     sudo add-apt-repository ppa:webupd8team/y-ppa-manager
     sudo apt update
     sudo apt install -y y-ppa-manager
 
 }
 
-
-gnome_tweak () {
-                sudo add-apt-repository universe
-                sudo apt install -y gnome-tweak-tool
+gnome_tweak() {
+    sudo add-apt-repository universe
+    sudo apt install -y gnome-tweak-tool
 }
 
-hide_top () {
-                echo "Installing Hide Top Bar!"
-                sudo apt install -y gnome-shell-extension-autohidetopbar
+hide_top() {
+    echo "Installing Hide Top Bar!"
+    sudo apt install -y gnome-shell-extension-autohidetopbar
 }
 
-fish_shell () {
-                echo "Installing Fish Shell!"
-                sudo apt install -y fish
-                chsh -s /usr/bin/fish
-    }
-polybar () {
+fish_shell() {
+    echo "Installing Fish Shell!"
+    sudo apt install -y fish
+    chsh -s /usr/bin/fish
+}
+polybar() {
     echo "Installing polybar with theme!"
     # git
     sudo apt install -y git
@@ -124,67 +120,65 @@ polybar () {
     chmod +x ~/.config/polybar/scripts/*.sh
     chmod +x ~/.config/polybar/*.sh
     ~/.conig/launch.sh
-    }
+}
 
-
-neovim () {
-    sudo apt install -y neovim 
+neovim() {
+    sudo apt install -y neovim
     echo "Open Neovim with nvim"
-    }
-wireshark () {
+}
+wireshark() {
     sudo add-apt-repository ppa:wireshark-dev/stable
     sudo apt-get update
     sudo apt-get install -y wireshark
-    }
+}
 
-postman () {
+postman() {
     sudo apt install -y snapd
     sudo apt update
     sudo snap install -y postman
-    }
-ngrok () {
+}
+ngrok() {
     curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
     echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
-    sudo apt update && sudo apt install -y ngrok 
-    }
-php () {
+    sudo apt update && sudo apt install -y ngrok
+}
+php() {
     sudo apt-get install -y php
-    }
-android_studio () {
+}
+android_studio() {
     sudo apt install -y openjdk-11-jdk
     sudo add-apt-repository ppa:maarten-fonville/android-studio
     sudo apt update
     sudo apt install -y android-studio
-    }
-snapd () {
+}
+snapd() {
     sudo apt install -y snapd
-    }
-    
-phpmyadmin () {
-sudo apt install apache2
-sudo ufw allow in "Apache"
-sudo apt install mysql-server
-sudo apt install php libapache2-mod-php php-mysql
-sudo mkdir /var/www/html/php
-sudo chown -R $USER:$USER /var/www/html/php
-sudo apt install phpmyadmin
-sudo systemctl restart apache2
-echo " "
-echo "echo Include /etc/phpmyadmin/apache.conf >> /etc/apache2/apache2.conf FOR PAGE NOT FOUND ERROR}"
-echo "Installed PhpMyAdmin"
-echo "Create New Mysql User with Root Priveleges Or Change Root Password"
-echo "FOLLOW FOLLOWING COMMAND TO CREATE NEW USER!"
-echo "sudo mysql -u root -p"
-echo "CREATE USER 'user-name'@'localhost' IDENTIFIED BY 'NEW_USER_PASSWORD';"
-echo "GRANT ALL PRIVILEGES ON *.* TO 'user-name'@'localhost' WITH GRANT OPTION;"
-echo "FLUSH PRIVILEGES;"
-echo "FOLLOW FOLLOWING COMMAND TO Change ROOT USER PASSWORD!"
-echo "ALTER USER 'user-name'@'localhost' IDENTIFIED BY 'NEW_USER_PASSWORD';"
-echo "FLUSH PRIVILEGES;"
 }
 
+phpmyadmin() {
+    sudo apt install apache2
+    sudo ufw allow in "Apache"
+    sudo apt install mysql-server
+    sudo apt install php libapache2-mod-php php-mysql
+    sudo mkdir /var/www/html/php
+    sudo chown -R $USER:$USER /var/www/html/php
+    sudo apt install phpmyadmin
+    sudo systemctl restart apache2
+    echo " "
+    echo "echo Include /etc/phpmyadmin/apache.conf >> /etc/apache2/apache2.conf FOR PAGE NOT FOUND ERROR}"
+    echo "Installed PhpMyAdmin"
+    echo "Create New Mysql User with Root Priveleges Or Change Root Password"
+    echo "FOLLOW FOLLOWING COMMAND TO CREATE NEW USER!"
+    echo "sudo mysql -u root -p"
+    echo "CREATE USER 'user-name'@'localhost' IDENTIFIED BY 'NEW_USER_PASSWORD';"
+    echo "GRANT ALL PRIVILEGES ON *.* TO 'user-name'@'localhost' WITH GRANT OPTION;"
+    echo "FLUSH PRIVILEGES;"
+    echo "FOLLOW FOLLOWING COMMAND TO Change ROOT USER PASSWORD!"
+    echo "ALTER USER 'user-name'@'localhost' IDENTIFIED BY 'NEW_USER_PASSWORD';"
+    echo "FLUSH PRIVILEGES;"
+}
 
-DIR=`pwd`
+DIR=$(pwd)
 FDIR="$HOME/.local/share/fonts"
 
 install_fonts() {
@@ -196,18 +190,47 @@ install_fonts() {
         cp -rf $DIR/fonts/* "$FDIR"
     fi
 }
+python(){
+    sudo apt update
+    sudo apt install -y python3-pip
+    sudo apt install -y python3-venv 
+}
 
+nvm(){
+    sudo apt install -y curl
+    curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+    source ~/.profile   
+    nvm install latest
+    node --version
+    npm --version
+}
 
-upgrade () {
+nvm_fish(){
+    fish
+    fisher install jorgebucaran/nvm.fish
+    nvm install latest
+    node --version
+    npm --version
+}
+
+yarn(){
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+    sudo apt update
+    sudo apt install -y --no-install-recommends yarn
+    yarn --version
+}
+
+upgrade() {
     sudo apt update
     sudo apt upgrade
-    }
+}
 
-all_app () {
+all_app() {
     echo "Installing update and upgrade!"
     upgrade
     sudo apt install -y git && sudo apt-get install -y wget && sudo apt-get install -y curl
-    
+
     echo "Installing Vs COde!"
     Vs_Code
 
@@ -262,100 +285,127 @@ all_app () {
 
     echo "Installing snapd!"
     snapd
-    
+
     echo "Installing PHPMYADMIN"
     phpmyadmin
+
+    echo "Installing Python3"
+    python
+
+    echo "nvm for fish shell"
+    nvm_fish
+
+    echo "yarn install"
+    yarn
 }
 
 case $value in
-    1)
-            echo "Installing All"
-            all_app
-            ;;
-    2)
-            echo "Installing Vs COde!"
-            Vs_Code
-            ;;
-    3)
-            echo "Installing Chrome!"
-            chrome
-            ;;
-    4)
-            echo "Installing Spotify!"
-            spotify
-            ;;
-    5)
-            echo "Installing Java Open jdk 11!"
-            java
-            ;;
-    6)
-            echo "Installing Zoom!"
-            zoom
-            ;;
-    7)
-            echo "Installing Firewall!"
-            firewall
-            ;;
-    8)
-            echo "Installing y-ppa-manager!"
-            ppa_manager
-            ;;
-    9)
-            echo "Installing gnome-tweak-tool!"
-            gnome_tweak
-            ;;
-    10)
-            echo "Installing Hide Top Bar!"
-            hide_top
-            ;;
-    11)
-            echo "Installing Fish Shell!"
-            fish_shell
-            ;;
-    12)
-            echo "Installing polybar and Fonts with MyConfig theme!"
-            install_fonts
-            polybar
-            ;;
-    13)
-            echo "Installing Neovim!"
-            neovim
-            ;;
-    14)
-            echo "Installing wireshark!"
-            wireshark
-            ;;
-    15)
-            echo "Installing postman!"
-            postman
-            ;;
-    16)
-            echo "Installing Ngrok!"
-            ngrok
-            ;;
-    17)
-            echo "Installing php!"
-            php
-            ;;
-    18)
-            echo "Installing android-studio!"
-            android_studio
-            ;;
-    19)
-            echo "Installing snapd!"
-            snapd
-            ;;
-    20)
-            echo "Installing PhpMyAdmin!"
-            phpmyadmin
-            ;;
-    21)
-            echo "Installing update and upgrade!"
-            upgrade
-            ;;
-    *)
-            echo "That's Wrong Value!"
-            ;;
+1)
+    echo "Installing All"
+    all_app
+    ;;
+2)
+    echo "Installing Vs COde!"
+    Vs_Code
+    ;;
+3)
+    echo "Installing Chrome!"
+    chrome
+    ;;
+4)
+    echo "Installing Spotify!"
+    spotify
+    ;;
+5)
+    echo "Installing Java Open jdk 11!"
+    java
+    ;;
+6)
+    echo "Installing Zoom!"
+    zoom
+    ;;
+7)
+    echo "Installing Firewall!"
+    firewall
+    ;;
+8)
+    echo "Installing y-ppa-manager!"
+    ppa_manager
+    ;;
+9)
+    echo "Installing gnome-tweak-tool!"
+    gnome_tweak
+    ;;
+10)
+    echo "Installing Hide Top Bar!"
+    hide_top
+    ;;
+11)
+    echo "Installing Fish Shell!"
+    fish_shell
+    ;;
+12)
+    echo "Installing polybar and Fonts with MyConfig theme!"
+    install_fonts
+    polybar
+    ;;
+13)
+    echo "Installing Neovim!"
+    neovim
+    ;;
+14)
+    echo "Installing wireshark!"
+    wireshark
+    ;;
+15)
+    echo "Installing postman!"
+    postman
+    ;;
+16)
+    echo "Installing Ngrok!"
+    ngrok
+    ;;
+17)
+    echo "Installing php!"
+    php
+    ;;
+18)
+    echo "Installing android-studio!"
+    android_studio
+    ;;
+19)
+    echo "Installing snapd!"
+    snapd
+    ;;
+20)
+    echo "Installing PhpMyAdmin!"
+    phpmyadmin
+    ;;
+21)
+    echo "Installing Python3!"
+    python
+    ;;
+22)
+    echo "Installing update and upgrade!"
+    upgrade
+    ;;
+23)
+    echo "Installing nvm!"
+    nvm
+    ;;
+24)
+    echo "Installing nvm for fish!"
+    nvm_fish
+    ;;
+25)
+    echo "Installing yarn!"
+    yarn
+    ;;
+25)
+    echo "Installing update and upgrade!"
+    upgrade
+    ;;
+*)
+    echo "That's Wrong Value!"
+    ;;
 esac
-
-
