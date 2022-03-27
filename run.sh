@@ -1,6 +1,6 @@
 #!/bin/bash
 val="Install"
-declare -a Install_ARRAY=("All" "Vs Code" "Chrome" "Spotify" "Java" "Zoom" "firewall gufw" "Y ppa manager" "gnome tweak" "gnome hide notification bar" "fish" "polybar" "neovim" "wireshark" "postman" "ngrok" "php" "Android Studio" "snapd" "phpmyadmin" "python" "nvm" "nvm_fish (must have fish with fisher)" "yarn" "upgrade")
+declare -a Install_ARRAY=("All" "Vs Code" "Chrome" "Spotify" "Java" "Zoom" "firewall gufw" "Y ppa manager" "gnome tweak" "gnome hide notification bar" "fish" "polybar" "neovim" "wireshark" "postman" "ngrok" "php" "Android Studio" "snapd" "phpmyadmin" "python" "nvm" "nvm_fish (must have fish with fisher)" "docker (run in bash)" "yarn" "upgrade")
 
 count=0
 for i in "${Install_ARRAY[@]}"; do
@@ -190,22 +190,22 @@ install_fonts() {
         cp -rf $DIR/fonts/* "$FDIR"
     fi
 }
-python(){
+python() {
     sudo apt update
     sudo apt install -y python3-pip
-    sudo apt install -y python3-venv 
+    sudo apt install -y python3-venv
 }
 
-nvm(){
+nvm() {
     sudo apt install -y curl
-    curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
-    source ~/.profile   
+    curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+    source ~/.profile
     nvm install latest
     node --version
     npm --version
 }
 
-nvm_fish(){
+nvm_fish() {
     fish
     fisher install jorgebucaran/nvm.fish
     nvm install latest
@@ -213,12 +213,20 @@ nvm_fish(){
     npm --version
 }
 
-yarn(){
+yarn() {
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
     sudo apt update
     sudo apt install -y --no-install-recommends yarn
     yarn --version
+}
+
+docker() {
+    sudo apt-get install ca-certificates curl gnupg lsb-release
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+    sudo apt-get update
+    sudo apt-get install docker-ce docker-ce-cli containerd.io
 }
 
 upgrade() {
@@ -248,6 +256,9 @@ all_app() {
 
     echo "Installing Firewall!"
     firewall
+
+    echo "Installing Docker!"
+    docker
 
     echo "Installing y-ppa-manager!"
     ppa_manager
@@ -402,6 +413,10 @@ case $value in
     yarn
     ;;
 25)
+    echo "Installing Docker!"
+    docker
+    ;;
+26)
     echo "Installing update and upgrade!"
     upgrade
     ;;
