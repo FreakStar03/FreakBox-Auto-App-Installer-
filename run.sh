@@ -123,8 +123,12 @@ polybar() {
 }
 
 neovim() {
-    sudo apt install -y neovim
+    sudo add-apt-repository ppa:neovim-ppa/unstable
+    sudo apt-get update
+    sudo apt-get install -y neovim
     echo "Open Neovim with nvim"
+    git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
+    nvim +'hi NormalFloat guibg=#1e222a' +PackerSync
 }
 wireshark() {
     sudo add-apt-repository ppa:wireshark-dev/stable
